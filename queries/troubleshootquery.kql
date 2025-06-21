@@ -1,0 +1,8 @@
+// This query allow you to look for the requester of the query for specific tables
+
+let TimeRange = 1d;
+
+LAQueryLogs
+| where TimeGenerated > ago(TimeRange)
+| extend SourceTable = extract(@"(\w+)\s*(\||$)", 1, QueryText)
+| project TimeGenerated, SourceTable, RequestClientApp, CorrelationId
