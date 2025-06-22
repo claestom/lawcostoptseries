@@ -101,7 +101,7 @@
               "durationMs": 86400000
             },
             "value": {
-              "durationMs": 1209600000
+              "durationMs": 86400000
             }
           }
         ],
@@ -154,6 +154,233 @@
         "visualization": "linechart"
       },
       "name": "query - 5"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "let TotalIngestion = toscalar(\r\n    Usage\r\n    | summarize IngestionVolume = sum(Quantity)\r\n);\r\nUsage\r\n| project DataType, Solution, Quantity, IsBillable\r\n| summarize\r\n    IngestionVolume = sum(Quantity),\r\n    IngestionPercent = sum(Quantity) / TotalIngestion,\r\n    Billable = any(IsBillable)\r\n    by Solution, DataType\r\n| sort by Solution asc, DataType asc",
+        "size": 0,
+        "timeContextFromParameter": "TimeRange",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "crossComponentResources": [
+          "{LogAnalytics}"
+        ],
+        "visualization": "table",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 0,
+              "formatOptions": {
+                "customColumnWidthSetting": "28ch"
+              }
+            },
+            {
+              "columnMatch": "Solution",
+              "formatter": 5
+            },
+            {
+              "columnMatch": "DataType",
+              "formatter": 0,
+              "formatOptions": {
+                "customColumnWidthSetting": "25ch"
+              }
+            },
+            {
+              "columnMatch": "Volume",
+              "formatter": 4,
+              "formatOptions": {
+                "palette": "green",
+                "customColumnWidthSetting": "25ch"
+              },
+              "numberFormat": {
+                "unit": 38,
+                "options": {
+                  "style": "decimal",
+                  "useGrouping": false,
+                  "maximumFractionDigits": 2
+                }
+              }
+            },
+            {
+              "columnMatch": "IngestionPercent",
+              "formatter": 4,
+              "formatOptions": {
+                "palette": "turquoise",
+                "customColumnWidthSetting": "25ch"
+              },
+              "numberFormat": {
+                "unit": 17,
+                "options": {
+                  "style": "percent",
+                  "useGrouping": false,
+                  "maximumFractionDigits": 1
+                }
+              }
+            },
+            {
+              "columnMatch": "TimeSinceLastUpdate",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "icons",
+                "thresholdsGrid": [
+                  {
+                    "operator": "<=",
+                    "thresholdValue": "5400",
+                    "representation": "Blank",
+                    "text": "{0}{1}"
+                  },
+                  {
+                    "operator": "<=",
+                    "thresholdValue": "10800",
+                    "representation": "Blank",
+                    "text": "{0}{1}"
+                  },
+                  {
+                    "operator": ">",
+                    "thresholdValue": "10800",
+                    "representation": "Normal",
+                    "text": "{0}{1}"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "Blank",
+                    "text": "{0}{1}"
+                  }
+                ]
+              },
+              "numberFormat": {
+                "unit": 24,
+                "options": {
+                  "style": "decimal",
+                  "useGrouping": false,
+                  "maximumFractionDigits": 0
+                }
+              }
+            },
+            {
+              "columnMatch": "Billable",
+              "formatter": 18,
+              "formatOptions": {
+                "thresholdsOptions": "icons",
+                "thresholdsGrid": [
+                  {
+                    "operator": "==",
+                    "thresholdValue": "true",
+                    "representation": "Blank",
+                    "text": "Billable"
+                  },
+                  {
+                    "operator": "==",
+                    "thresholdValue": "false",
+                    "representation": "Blank",
+                    "text": "Not billable"
+                  },
+                  {
+                    "operator": "Default",
+                    "thresholdValue": null,
+                    "representation": "Blank",
+                    "text": "{0}{1}"
+                  }
+                ],
+                "compositeBarSettings": {
+                  "labelText": "",
+                  "columnSettings": []
+                }
+              }
+            },
+            {
+              "columnMatch": "$gen_group",
+              "formatter": 0,
+              "formatOptions": {
+                "customColumnWidthSetting": "28ch"
+              }
+            }
+          ],
+          "rowLimit": 500,
+          "hierarchySettings": {
+            "treeType": 1,
+            "groupBy": [
+              "Solution"
+            ],
+            "expandTopLevel": true
+          },
+          "labelSettings": [
+            {
+              "columnId": "DataType",
+              "label": "Table"
+            },
+            {
+              "columnId": "IngestionVolume",
+              "label": "Ingestion Volume"
+            },
+            {
+              "columnId": "IngestionPercent",
+              "label": "Ingestion Percentage"
+            }
+          ]
+        },
+        "tileSettings": {
+          "titleContent": {
+            "columnMatch": "DataType",
+            "formatter": 1
+          },
+          "subtitleContent": {
+            "columnMatch": "Solution"
+          },
+          "leftContent": {
+            "columnMatch": "IngestionVolume",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "magenta"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "style": "decimal",
+                "maximumFractionDigits": 2,
+                "maximumSignificantDigits": 3
+              }
+            }
+          },
+          "showBorder": false
+        },
+        "graphSettings": {
+          "type": 0,
+          "topContent": {
+            "columnMatch": "Solution",
+            "formatter": 1
+          },
+          "centerContent": {
+            "columnMatch": "IngestionVolume",
+            "formatter": 1,
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "maximumSignificantDigits": 3,
+                "maximumFractionDigits": 2
+              }
+            }
+          }
+        },
+        "mapSettings": {
+          "locInfo": "LatLong",
+          "sizeSettings": "IngestionVolume",
+          "sizeAggregation": "Sum",
+          "legendMetric": "IngestionVolume",
+          "legendAggregation": "Sum",
+          "itemColorSettings": {
+            "type": "heatmap",
+            "colorAggregation": "Sum",
+            "nodeColorField": "IngestionVolume",
+            "heatmapPalette": "greenRed"
+          }
+        }
+      },
+      "name": "query - 10"
     },
     {
       "type": 1,
