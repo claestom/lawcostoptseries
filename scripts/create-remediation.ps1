@@ -5,9 +5,12 @@ param(
     [string]$AssignmentName = "lawcostopt-diagnostics-assignment"
 )
 
+# Get the policy assignment object to retrieve its Id
+$assignment = Get-AzPolicyAssignment -Name $AssignmentName -Scope "/subscriptions/$SubscriptionId"
+
 # Create a remediation task for the policy assignment
 $remediation = Start-AzPolicyRemediation -Name "lawcostopt-diagnostics-remediation" `
-    -PolicyAssignmentName $AssignmentName `
+    -PolicyAssignmentId $assignment.Id `
     -Scope "/subscriptions/$SubscriptionId"
 
 Write-Host "Remediation task created."
