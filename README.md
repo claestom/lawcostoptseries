@@ -31,3 +31,14 @@ cd ../template ; az deployment group create --subscription 'xxxxxxxx-xxx...' --r
 ![inv](./screenshots/inventory.png)
 ![usage](./screenshots/usage.png)
 ![troubleshooting](./screenshots/troubleshooting.png)
+
+In this example, the AzureDiagnostic has been ingesting the most data in the specified time interval, however, it hasn't been queried once in the same interval. In order to optimize the cost, we could:
+
+* Lower the data ingestion by applying transformations or lowering the sample rate
+* Removing the table and stop the ingestion as a whole
+
+---
+
+## Feedback & Contributions
+
+I would love to hear your opinions and feedback on this solution! If you have suggestions, improvements, or questions, please feel free to open an issue or start a discussion. Contributions are always welcome—raise a pull request (PR) or an issue to help make this project even better.
