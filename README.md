@@ -26,7 +26,7 @@ These steps automate the process of collecting, analyzing, and visualizing usage
 ``` 
 git clone https://github.com/claestom/lawcostoptseries.git ; cd lawcostoptseries
 ```
-#### 2. Deploy the Diagnostic Settings required to your Log Analytics Workspace
+#### 2. Create the Policy definiton & the assignment to your subscription
 
 ```
 cd scripts ; ./create-policy-assignment.ps1 -SubscriptionId "xxxxxxxx-..."
