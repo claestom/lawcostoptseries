@@ -1,14 +1,13 @@
 {
   "properties": {
     "displayName": "Configure diagnostic settings for Log Analytics workspace to Log Analytics workspace",
-    "policyType": "BuiltIn",
+    "policyType": "Custom",
     "mode": "All",
     "description": "Deploys the diagnostic settings for Log Analytics workspaces to stream Audit logs to a Log Analytics workspace when any Log Analytics workspace which is missing this diagnostic settings is created or updated.",
     "metadata": {
       "category": "Monitoring",
       "version": "4.0.1"
     },
-    "version": "4.0.1",
     "parameters": {
       "profileName": {
         "type": "String",
