@@ -4,6 +4,22 @@ This repository contains KQL queries and an Azure Workbook template to help you 
 
 You can use these resources to identify data ingestion trends, review table usage, and uncover opportunities to reduce unnecessary costs in your Azure Monitor environment. The latter is particularly valuable, as this workbook highlights tables that are ingesting data into Log Analytics but are rarely—or not at all—queried. This insight enables you to reduce or even eliminate data ingestion into those tables, helping to optimize costs.
 
+## How the solution works
+
+At a high level, this solution leverages several Azure services and automation steps to help you optimize your Log Analytics costs:
+
+- **Azure Policy**: A custom policy is deployed and assigned to your subscription. This policy ensures that diagnostic settings are configured on all Log Analytics workspaces to capture Audit logs about query activities.
+- **Diagnostic Settings**: The policy automatically configures diagnostic settings on each workspace, so that query and ingestion activities are logged for analysis.
+- **Remediation Task**: To apply the policy to existing workspaces, a remediation task is created. This ensures all current workspaces are compliant and have the required diagnostic settings.
+- **KQL Queries & Azure Workbook**: The captured logs are analyzed using KQL queries, and the results are visualized in an Azure Workbook. This workbook provides insights into table usage, data ingestion, and opportunities for cost optimization.
+
+**Steps overview:**
+1. Deploy the custom Azure Policy and assign it to your subscription.
+2. Run a remediation task to apply the policy to all existing Log Analytics workspaces.
+3. Deploy the provided Azure Workbook to visualize and analyze your workspace data and costs.
+
+These steps automate the process of collecting, analyzing, and visualizing usage data, enabling you to make informed decisions to optimize your Log Analytics costs.
+
 ## How to implement the solution
 
 #### 1. Clone the repository
@@ -11,8 +27,6 @@ You can use these resources to identify data ingestion trends, review table usag
 git clone https://github.com/claestom/lawcostoptseries.git ; cd lawcostoptseries
 ```
 #### 2. Deploy the Diagnostic Settings required to your Log Analytics Workspace
-
-In order to for the workbook to get insights in the query activities of the tables, the Audit logs need to be captured from the Log Analytics workspaces. This will be done using Diagnostic Settings and in order to scale and automate this, a custom Azure Policy was created for this solution. The following command will create the custom Policy definition and assign it to your subscription.
 
 ```
 cd scripts ; ./create-policy-assignment.ps1 -SubscriptionId "xxxxxxxx-..."
@@ -37,7 +51,6 @@ In this example, the AzureDiagnostic has been ingesting the most data in the spe
 * Lower the data ingestion by applying transformations or lowering the sample rate
 * Removing the table and stop the ingestion as a whole
 
----
 
 ## Feedback & Contributions
 
