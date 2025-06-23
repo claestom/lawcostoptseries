@@ -9,7 +9,7 @@ param(
 $PolicyFile = Join-Path $PSScriptRoot "..\policy\definition.json"
 
 # Create the custom policy definition
-$policyDef = New-AzPolicyDefinition -Name "lawcostopt-diagnostics" `
+$policyDef = New-AzPolicyDefinition -Name "Custom" `
     -DisplayName "Configure diagnostic settings for Log Analytics workspace to Log Analytics workspace" `
     -Description "Deploys diagnostic settings for Log Analytics workspaces to stream Audit logs to themselves." `
     -Policy $PolicyFile `
