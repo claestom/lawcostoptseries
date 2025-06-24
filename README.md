@@ -1,6 +1,6 @@
 # Azure Log Analytics Cost Optimization
 
-This repository is the home of a multi-part series focused on helping you analyze and optimize the cost and usage of your Azure Log Analytics workspaces. Each part of the series will address a key aspect of cost optimization, from identifying unused tables to advanced architectural design.
+This repository is the home of a **5-part series** focused on helping you analyze and optimize the cost and usage of your Azure Log Analytics workspaces. Each part of the series will address a key aspect of cost optimization, from identifying unused tables to advanced architectural design.
 
 ## Series Overview
 
@@ -19,9 +19,13 @@ This series will consist of 5 parts:
 
 ---
 
-The first part of the series, including KQL queries, policy definitions, deployment templates, and a detailed guide, can be found in the following folder:
+Below the different parts: 
 
-[01_Detect_Unused_Tables](./01_Detect_Unused_Tables/)
+* [Part 1: Detect unused tables in Log Analytics workspace](./01_Detect_Unused_Tables/)
+* Part 2: Optimize the logs: Analytic vs Basic vs Auxiliary [to be added soon]
+* Part 3: Log Centralization, Commitment Tiers & Dedicated Clusters [to be added soon]
+* Part 4: Controlling Data Ingestion & Transformations [to be added soon]
+* Part 5: Design Architecture & Others [to be added soon]
 
 Explore that folder for step-by-step instructions, scripts, and workbook examples to get started with cost optimization for your Log Analytics environment.
 
