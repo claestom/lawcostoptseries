@@ -24,7 +24,7 @@ These steps automate the process of collecting, analyzing, and visualizing usage
 
 #### 1. Clone the repository
 ``` 
-git clone https://github.com/claestom/lawcostoptseries.git ; cd lawcostoptseries
+git clone https://github.com/claestom/lawcostoptseries.git ; cd "lawcostoptseries/01_Detect_Unused_Tables"
 ```
 #### 2. Create the Policy definiton & the assignment to your subscription
 
