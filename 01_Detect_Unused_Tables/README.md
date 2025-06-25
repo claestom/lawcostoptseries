@@ -33,7 +33,7 @@ cd scripts ; ./create-policy-assignment.ps1 -SubscriptionId "xxxxxxxx-..."
 ```
 #### 3. In order for the Policy to have effect on the existing workspaces, create a remediaton task
 ```
-cd scripts ; ./create-remediation.ps1 -SubscriptionId "xxxxxxxx-..."
+./create-remediation.ps1 -SubscriptionId "xxxxxxxx-..."
 ```
 #### 4. Deploy the workbook using the Bicep file
 ```
