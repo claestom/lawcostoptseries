@@ -18,6 +18,8 @@ At a high level, this solution leverages several Azure services and automation s
 2. Run a remediation task to apply the policy to all existing Log Analytics workspaces.
 3. Deploy the provided Azure Workbook to visualize and analyze your workspace data and costs.
 
+***Note***: After the workbook is created, it may take some time before data starts appearing. This is because data collection only begins once the policy has been enforced and the diagnostic setting has been configured for the Log Analytics workspaces. Please allow 5–10 minutes for the first data to be ingested.
+
 These steps automate the process of collecting, analyzing, and visualizing usage data, enabling you to make informed decisions to optimize your Log Analytics costs.
 
 ## How to implement the solution
