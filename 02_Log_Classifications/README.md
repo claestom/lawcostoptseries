@@ -34,7 +34,7 @@ Connect-AzAccount
 
 **PowerShell Scripts for Automation**:
 
-The [scripts](./scripts/) folder contains PowerShell scripts to automate table plan management:
+The [scripts](./scripts/) folder contains PowerShell scripts to automate table plan management. These scripts only consider tables that have had data ingested in the last 30 days to avoid processing unused or inactive tables.
 
 1. **`Get-LogAnalyticsTables.ps1`** - Single workspace operations
    - Lists tables with data in a specific workspace
