@@ -20,8 +20,14 @@ You can switch between Analytics and Basic table plans for supported tables. The
 
 **Automation at scale**: For bulk operations across multiple tables, see the PowerShell script in the [scripts](./scripts/) folder that automates the transition of all eligible tables to Basic plan.
 
-**Prerequisites - Check Azure Context**:
+**Getting Started**:
 ```powershell
+# Clone the repository
+git clone https://github.com/claestom/log-analytics-cost-optimizer.git
+
+# Navigate to the scripts folder
+cd log-analytics-cost-optimizer/02_Log_Classifications/scripts
+
 # If not logged in, connect to Azure
 Connect-AzAccount
 ```
