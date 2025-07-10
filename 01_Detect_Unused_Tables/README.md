@@ -20,6 +20,8 @@ At a high level, this solution leverages several Azure services and automation s
 
 ***Note***: After the workbook is created, it may take some time before data starts appearing. This is because data collection only begins once the policy has been enforced and the diagnostic setting has been configured for the Log Analytics workspaces. Please allow 5–10 minutes for the first data to be ingested.
 
+***Disclaimer***: The workbook currently analyzes interactive queries and does not take into account queries executed by alert rules that may be configured in your environment. This means tables that appear "unused" might actually be actively queried by alert rules. I'm currently working on integrating alert rule query insights into the workbook to provide a more complete usage analysis.
+
 These steps automate the process of collecting, analyzing, and visualizing usage data, enabling you to make informed decisions to optimize your Log Analytics costs.
 
 ## How to implement the solution
