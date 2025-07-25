@@ -57,6 +57,8 @@ Azure Monitor Logs commitment tiers provide substantial cost savings for consist
 - **Overage charges** apply at standard rates when exceeding daily commitment
 - **30-day minimum commitment** with ability to change tiers monthly
 
+**Not reaching commitment tiers on individual workspaces?** If your individual workspaces don't meet the minimum 100GB/day threshold for commitment tier savings, dedicated clusters can be a game-changer. They allow you to aggregate data ingestion across multiple workspaces to collectively reach commitment tier thresholds, unlocking volume discounts that wouldn't be available to individual smaller workspaces.
+
 For current pricing details, see [Azure Monitor pricing](https://azure.microsoft.com/en-us/pricing/details/monitor/).
 
 ## Dedicated Clusters: What, Why, and How
@@ -66,59 +68,88 @@ For current pricing details, see [Azure Monitor pricing](https://azure.microsoft
 Azure Monitor Dedicated Clusters are isolated compute and storage environments that provide enhanced control, predictable performance, and significant cost savings for large-scale log analytics workloads.
 
 **Key Characteristics**:
-- **Minimum commitment**: 500 GB/day (can scale up to petabytes)
+- **Minimum commitment**: 100 GB/day (though CLI minimum is currently 500 GB/day, use REST to configure lower commitment tiers with minimum of 100 GB.)
 - **Isolated infrastructure**: Dedicated compute and storage resources
-- **Enhanced security**: Customer-managed keys, network isolation options
-- **Predictable performance**: Guaranteed query performance and ingestion rates
+- **Regional scope**: Can link up to 1,000 workspaces in the same region
+- **31-day commitment period**: Can increase tier anytime, but must wait 31 days to decrease
+
+> **⚠️ Important Regional Requirement**: Log Analytics workspaces must be deployed in the same region as the dedicated cluster. Cross-region linking is not supported.
 
 ### Why Choose Dedicated Clusters?
 
-**Cost Optimization Benefits**:
-- **Volume discounts**: Up to 50% savings compared to pay-as-you-go at scale
-- **Predictable costs**: Fixed daily commitment simplifies budgeting
-- **No per-workspace charges**: Eliminate individual workspace fees
+**Primary Focus: Cost Optimization Benefits**:
+- **Volume discounts**: Commitment tier pricing starting at 100 GB/day
+- **Predictable costs**: Fixed daily commitment simplifies budgeting and planning
+- **Consolidated billing**: Link workspaces across different subscriptions to one cluster
+- **Flexible billing attribution**: Choose between cluster-level or workspace-proportional billing
 
-**Operational Benefits**:
-- **Centralized management**: Manage multiple workspaces from single cluster
-- **Enhanced security**: Customer-managed encryption keys (CMK)
-- **Improved performance**: Consistent query response times
-- **Network isolation**: Private endpoint and VNET integration support
+**Key Cost Advantage - Data Aggregation**: The most compelling cost benefit of dedicated clusters is the ability to combine data ingestion across multiple workspaces to reach commitment tier thresholds. This is ideal for scenarios where individual workspaces might only ingest 20-50 GB/day, but collectively across 5-10 workspaces, you reach the 100+ GB/day minimum for significant volume discounts. An example below:
 
-**Compliance Benefits**:
-- **Data residency**: Control where data is stored and processed
-- **Encryption control**: Manage your own encryption keys
-- **Audit capabilities**: Enhanced logging and monitoring of cluster activities
+![pricediff](./screenshots/pricediff.png)
+
+For comprehensive information about dedicated clusters, including capabilities, detailed implementation guides and advanced configuration options, see the [official Azure Monitor dedicated clusters documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters). 
 
 ### How to Implement Dedicated Clusters
 
-**Planning Phase**:
-1. **Assess current usage**: Ensure consistent 500+ GB/day ingestion
-2. **Calculate ROI**: Compare cluster costs vs current workspace costs
-3. **Design architecture**: Plan workspace organization and access patterns
-4. **Security requirements**: Determine CMK, networking, and compliance needs
+**Cost-Focused Planning Steps**:
+1. **Assess current usage**: Analyze combined workspace ingestion to ensure 100+ GB/day minimum
+2. **Calculate ROI**: Compare cluster commitment tier costs vs current pay-as-you-go expenses
+3. **Plan workspace consolidation**: Identify workspaces in the same region for optimal cost aggregation
 
-**Implementation Approach**:
-1. **Create dedicated cluster**: Deploy with appropriate capacity commitment
-2. **Link workspaces**: Connect existing or new workspaces to cluster
-3. **Configure security**: Set up CMK, private endpoints if required
-4. **Monitor and optimize**: Track usage patterns and adjust capacity
+**Implementation Overview**:
+1. **Create cluster**: Deploy with appropriate commitment tier based on cost analysis
+2. **Link workspaces**: Connect existing workspaces to begin cost optimization
+3. **Monitor and adjust**: Track utilization vs commitment to optimize tier selection
 
-**Best Practices**:
-- **Start with minimum commitment** (500 GB/day) and scale based on usage
-- **Centralize related workspaces** to maximize cluster utilization
-- **Plan for growth** - consider future data ingestion trends
-- **Monitor cluster utilization** to ensure cost effectiveness
+**Key Implementation Notes**:
+- Provisioning takes ~2 hours; workspace linking up to 90 minutes
+- Billing starts immediately upon cluster creation
+- Historical data remains in original locations; only new data uses cluster
+
+For detailed step-by-step implementation guides, configuration options, and troubleshooting, see the [Azure Monitor dedicated clusters implementation documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters).
+
+### Best Practices
+
+**Capacity Planning**:
+- **Start conservative**: Begin with minimum viable commitment tier (100GB/day)
+- **Monitor utilization**: Track daily ingestion vs commitment to optimize tier selection
+- **Plan for growth**: Consider future data ingestion trends and business expansion
+- **Overage management**: Monitor overage charges when exceeding daily commitment
+
+**Workspace Organization for Cost Optimization**:
+- **Regional consolidation**: Link workspaces within the same region to maximize cluster benefits and avoid cross-region charges
+- **Aggregate smaller workspaces**: Combine workspaces with lower individual ingestion to reach commitment tier thresholds
+
+For additional best practices including security, compliance, and operational considerations, see the [Azure Monitor dedicated clusters documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters).
 
 ### When to Consider Dedicated Clusters
 
-**Ideal Scenarios**:
-- **Large enterprises** with >500 GB/day consistent ingestion
-- **Multi-subscription environments** with distributed workspaces
-- **Compliance requirements** needing enhanced security controls
-- **Predictable workloads** with stable long-term data patterns
+**Cost-Driven Ideal Scenarios**:
+- **Large enterprises** with consistent 100+ GB/day ingestion (500+ GB for significant benefits)
+- **Multi-subscription environments** where aggregating workspaces enables commitment tier savings
+- **Distributed workspaces** with combined ingestion meeting minimum thresholds
 
 **Cost Break-Even Analysis**:
-At 500 GB/day commitment (~$345,000/year), dedicated clusters become cost-effective when you have:
-- Multiple workspaces totaling similar ingestion volumes
-- Need for enhanced security features (CMK, private endpoints)
-- Requirement for predictable performance and costs
+Dedicated clusters become cost-effective when:
+- **Combined workspace ingestion** consistently meets or exceeds commitment tier
+- **Volume discounts** offset the fixed daily commitment costs
+- **Predictable workloads** justify commitment tier pricing over pay-as-you-go
+
+**When NOT to Use Dedicated Clusters**:
+- **Small environments** with <100 GB/day consistent ingestion
+- **Highly variable workloads** with unpredictable data patterns that may not meet daily commitments
+- **Single workspace environments** without the need for data aggregation benefits
+
+For additional scenarios including compliance, performance, and operational considerations, see the [Azure Monitor dedicated clusters documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters).
+
+### Pricing Model Details
+
+**Commitment Tier Structure**:
+- **Daily commitment**: Fixed cost regardless of actual daily ingestion
+- **Overage charges**: Standard per-GB rates apply when exceeding commitment
+- **Tier flexibility**: Can increase tier anytime; 31-day wait to decrease
+- **Billing attribution options**:
+  - **Cluster billing** (default): All costs attributed to cluster resource
+  - **Workspace billing**: Costs distributed proportionally across linked workspaces
+
+For detailed pricing information, see [Azure Monitor Logs pricing details](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/cost-logs#dedicated-clusters).
