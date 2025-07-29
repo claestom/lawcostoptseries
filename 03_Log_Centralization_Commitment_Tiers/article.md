@@ -2,15 +2,11 @@
 
 ## Introduction
 
-Welcome to Part 3 of our comprehensive 5-part Azure Log Analytics cost optimization series. In [Part 1](../01_Detect_Unused_Tables/), we explored identifying and removing unused tables, and in [Part 2](../02_Log_Classifications/), we optimized costs through strategic table plan selection. Now, we turn our attention to **architectural cost optimization strategies** that can deliver enterprise-scale savings through log centralization, commitment tiers, and dedicated clusters.
-
-As your Azure environment grows, the traditional pay-as-you-go pricing model for Azure Monitor Logs can become increasingly expensive. This part focuses on leveraging Azure's volume-based pricing tiers and architectural patterns to achieve significant cost reductions—often 30-50% or more—while improving operational efficiency and centralized management.
+Welcome to Part 3 of our comprehensive 5-part Azure Log Analytics cost optimization series. After covering unused tables ([Part 1](../01_Detect_Unused_Tables/)) and table plan optimization ([Part 2](../02_Log_Classifications/)), we now focus on **architectural cost optimization strategies** that can deliver enterprise-scale savings of 15-36% through log centralization, commitment tiers, and dedicated clusters.
 
 ### What You'll Learn in This Part
 
-This guide covers Azure Monitor pricing fundamentals and how commitment tiers provide predictable, volume-discounted pricing for consistent workloads. You'll understand when and how to implement dedicated clusters for large-scale environments, along with practical strategies for log centralization that maximize cost efficiency while maintaining security and compliance requirements.
-
-Whether you're managing distributed workspaces across multiple subscriptions or planning for future growth, this guide provides the architectural foundation needed to optimize costs at enterprise scale.
+This guide covers Azure Monitor commitment tier pricing and how to implement dedicated clusters for aggregating workspace data to unlock volume discounts. You'll learn when these strategies make financial sense and how to implement them effectively.
 
 *This is Part 3 of our 5-part series covering: Part 1 - Unused Tables, Part 2 - Table Plans, **Part 3 - Centralization & Commitment Tiers** (this article), Part 4 - Data Ingestion Control, and Part 5 - Advanced Optimization Strategies.*
 
@@ -34,32 +30,13 @@ Azure Monitor Logs offers multiple pricing models designed to accommodate differ
 
 ### Available Commitment Tiers
 
-Azure Monitor Logs commitment tiers provide substantial cost savings for consistent workloads:
+Azure Monitor Logs offers multiple commitment tiers starting at 100GB/day with savings ranging from 15% to 30%+ depending on volume. The most common tiers include 100 GB/day (~15% savings, ~$6,000/month) and 200 GB/day (~20% savings, ~$11,000/month), with higher enterprise tiers available offering up to 36% savings.
 
-**100 GB/day Tier**
-• **Cost**: ~$196/day (~15% savings vs pay-as-you-go)
-• **Monthly Equivalent**: ~$6,000/month
-• **Best For**: Medium enterprises with 3TB/month consistent ingestion
+These are daily commitments where you pay the full amount regardless of actual usage, with a 30-day minimum commitment and the ability to change tiers monthly. Overage charges apply at standard rates when exceeding your commitment level.
 
-**200 GB/day Tier**
-• **Cost**: ~$368/day (~20% savings vs pay-as-you-go)
-• **Monthly Equivalent**: ~$11,000/month
-• **Best For**: Large enterprises with 6TB/month consistent ingestion
+**Not reaching commitment tiers on individual workspaces?** Dedicated clusters allow you to aggregate data ingestion across multiple workspaces to collectively reach commitment tier thresholds, unlocking volume discounts that wouldn't be available to individual smaller workspaces.
 
-**Higher Tiers Available**
-• **500 GB/day**: ~25% savings
-• **1 TB/day**: ~30% savings
-• **2 TB/day and above**: Contact Microsoft for enterprise pricing
-
-**Important Considerations**:
-- Commitment tiers are **daily commitments** - you pay the full amount even if you ingest less
-- **Break-even analysis** is crucial - ensure consistent usage meets or exceeds commitment
-- **Overage charges** apply at standard rates when exceeding daily commitment
-- **30-day minimum commitment** with ability to change tiers monthly
-
-**Not reaching commitment tiers on individual workspaces?** If your individual workspaces don't meet the minimum 100GB/day threshold for commitment tier savings, dedicated clusters can be a game-changer. They allow you to aggregate data ingestion across multiple workspaces to collectively reach commitment tier thresholds, unlocking volume discounts that wouldn't be available to individual smaller workspaces.
-
-For current pricing details, see [Azure Monitor pricing](https://azure.microsoft.com/en-us/pricing/details/monitor/).
+For complete pricing details and all available tiers, see [Azure Monitor pricing](https://azure.microsoft.com/en-us/pricing/details/monitor/?msockid=206a9e527e23630d0a4a8b6d7f6b627e).
 
 ## Dedicated Clusters: What, Why, and How
 
@@ -83,7 +60,7 @@ Azure Monitor Dedicated Clusters are isolated compute and storage environments t
 - **Consolidated billing**: Link workspaces across different subscriptions to one cluster
 - **Flexible billing attribution**: Choose between cluster-level or workspace-proportional billing
 
-**Key Cost Advantage - Data Aggregation**: The most compelling cost benefit of dedicated clusters is the ability to combine data ingestion across multiple workspaces to reach commitment tier thresholds. This is ideal for scenarios where individual workspaces might only ingest 20-50 GB/day, but collectively across 5-10 workspaces, you reach the 100+ GB/day minimum for significant volume discounts. An example below:
+**Key Cost Advantage via Data Aggregation**: The most compelling cost benefit of dedicated clusters is the ability to combine data ingestion across multiple workspaces to reach commitment tier thresholds. This is ideal for scenarios where individual workspaces might only ingest 20-50 GB/day, but collectively across 5-10 workspaces, you reach the 100+ GB/day minimum for significant volume discounts. An example below:
 
 ![pricediff](./screenshots/pricediff.png)
 
@@ -91,22 +68,13 @@ For comprehensive information about dedicated clusters, including capabilities, 
 
 ### How to Implement Dedicated Clusters
 
-**Cost-Focused Planning Steps**:
-1. **Assess current usage**: Analyze combined workspace ingestion to ensure 100+ GB/day minimum
-2. **Calculate ROI**: Compare cluster commitment tier costs vs current pay-as-you-go expenses
-3. **Plan workspace consolidation**: Identify workspaces in the same region for optimal cost aggregation
+**Planning Phase**: First, assess your combined workspace ingestion across regions to ensure you meet the 100+ GB/day minimum. Calculate the ROI by comparing cluster commitment tier costs against your current pay-as-you-go expenses to validate the business case.
 
-**Implementation Overview**:
-1. **Create cluster**: Deploy with appropriate commitment tier based on cost analysis
-2. **Link workspaces**: Connect existing workspaces to begin cost optimization
-3. **Monitor and adjust**: Track utilization vs commitment to optimize tier selection
+**Deployment**: Azure Monitor dedicated clusters can be deployed using multiple tools including the Azure portal, Azure CLI, PowerShell, ARM/Bicep templates, or REST API. The process involves creating the cluster with your chosen commitment tier, then linking your existing workspaces to begin cost optimization.
 
-**Key Implementation Notes**:
-- Provisioning takes ~2 hours; workspace linking up to 90 minutes
-- Billing starts immediately upon cluster creation
-- Historical data remains in original locations; only new data uses cluster
+**Key Notes**: Cluster provisioning takes approximately 2 hours, workspace linking up to 90 minutes, and billing starts immediately upon cluster creation. Historical data remains in original workspace locations—only new data uses the cluster infrastructure.
 
-For detailed step-by-step implementation guides, configuration options, and troubleshooting, see the [Azure Monitor dedicated clusters implementation documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters).
+For comprehensive step-by-step implementation guides covering all deployment methods (portal, CLI, PowerShell, templates), detailed configuration options, and troubleshooting, see the [Azure Monitor dedicated clusters documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters?tabs=azure-portal).
 
 ### Best Practices
 
