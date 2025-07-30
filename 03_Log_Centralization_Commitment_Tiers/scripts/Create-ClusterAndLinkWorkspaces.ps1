@@ -13,7 +13,7 @@
 #   - Minimum commitment tier is 100GB/day
 #
 # PARAMETERS:
-#   SubscriptionId    - Your Azure subscription GUID
+#   SubscriptionId    - Your Azure subscription ID
 #   ResourceGroupName - Resource group where cluster will be created
 #   ClusterName       - Unique name for the dedicated cluster
 #   Region           - Azure region (must match workspace locations)

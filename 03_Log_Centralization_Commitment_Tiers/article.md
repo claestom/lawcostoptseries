@@ -2,7 +2,9 @@
 
 ## Introduction
 
-Welcome to Part 3 of our comprehensive 5-part Azure Log Analytics cost optimization series. After covering unused tables ([Part 1](../01_Detect_Unused_Tables/)) and table plan optimization ([Part 2](../02_Log_Classifications/)), we now focus on **architectural cost optimization strategies** that can deliver enterprise-scale savings of 15-36% through log centralization, commitment tiers, and dedicated clusters.
+Welcome to Part 3 of our comprehensive 5-part Azure Log Analytics cost optimization series. After covering unused tables ([Part 1](../01_Detect_Unused_Tables/)) and table plan optimization ([Part 2](../02_Log_Classifications/)), we now focus on **architectural cost optimization strategies** that can deliver enterprise-scale savings through centralized log management.
+
+Azure Monitor Logs provides commitment tier pricing and dedicated clusters designed to unlock volume discounts for organizations with predictable, high-volume data ingestion patterns. Understanding these architectural optimization strategies and their exact implementation requirements is crucial for enterprise-scale cost reduction, as properly configured dedicated clusters with commitment tier pricing can result in savings of 15–36% on your overall log analytics costs while providing enhanced performance and centralized management capabilities.
 
 ### What You'll Learn in This Part
 
@@ -72,7 +74,27 @@ For comprehensive information about dedicated clusters, including capabilities, 
 
 **Deployment**: Azure Monitor dedicated clusters can be deployed using multiple tools including the Azure portal, Azure CLI, PowerShell, ARM/Bicep templates, or REST API. The process involves creating the cluster with your chosen commitment tier, then linking your existing workspaces to begin cost optimization.
 
-**Key Notes**: Cluster provisioning takes approximately 2 hours, workspace linking up to 90 minutes, and billing starts immediately upon cluster creation. Historical data remains in original workspace locations—only new data uses the cluster infrastructure.
+**Automated PowerShell Solution**: To simplify the deployment and workspace linking process, we've created a comprehensive PowerShell script ([`Create-ClusterAndLinkWorkspaces.ps1`](./scripts/Create-ClusterAndLinkWorkspaces.ps1)) that automates the entire workflow:
+
+- **Creates dedicated cluster** with your specified commitment tier
+- **Waits for provisioning** to complete (up to 2.5 hours with status monitoring)
+- **Discovers workspaces intelligently** using tag-based filtering - you control exactly which workspaces get linked by specifying a tag key/value pair (e.g., `Environment=Production`)
+- **Links only matching workspaces** that are in the same region as the cluster and contain your specified tags
+- **Handles errors gracefully** with retry logic, detailed logging, and troubleshooting guidance
+
+**Tag-Based Workspace Control**: The script uses a smart filtering mechanism where you specify a tag key and value (such as `Environment=Production` or `Department=Finance`), and it will automatically discover and link only those Log Analytics workspaces that:
+1. Are located in the same Azure region as the dedicated cluster
+2. Have been tagged with your exact key-value combination
+
+This gives you precise control over which workspaces join the cluster while avoiding manual workspace discovery and linking. You simply tag your workspaces appropriately beforehand, and the script handles the rest.
+
+```powershell
+# Example usage - link all Production workspaces in East US
+.\Create-ClusterAndLinkWorkspaces.ps1 -SubscriptionId "your-sub-id" `
+  -ResourceGroupName "rg-monitoring" -ClusterName "cluster-prod-eastus" `
+  -Region "eastus" -CommitmentTier 500 `
+  -TagKey "Environment" -TagValue "Production"
+```
 
 For comprehensive step-by-step implementation guides covering all deployment methods (portal, CLI, PowerShell, templates), detailed configuration options, and troubleshooting, see the [Azure Monitor dedicated clusters documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/logs-dedicated-clusters?tabs=azure-portal).
 
