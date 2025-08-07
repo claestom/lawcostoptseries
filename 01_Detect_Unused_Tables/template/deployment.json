@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": " \r\n# Azure Log Analtyics workspace - cost optimization \r\n \r\n Goal of the workbook is to gain insights in the current costs and usage of the Log Analytics workspaces. "
+        "json": " \r\n# Azure Log Analytics workspace - cost optimization \r\n \r\n Goal of the workbook is to gain insights in the current costs and usage of the Log Analytics workspaces. "
       },
       "name": "text - 0"
     },
