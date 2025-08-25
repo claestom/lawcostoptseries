@@ -8,14 +8,14 @@ This series will consist of 5 parts:
 
 1. **Detect Unused Tables, Basic/Analytic/Auxiliary Logs**  
    Learn how to identify tables that are ingesting data but are rarely or never queried, and understand the different log types in Log Analytics.
-2. **Log Centralization, Commitment Tiers, Dedicated Clusters**  
+2. **Optimize the logs: Analytic vs Basic vs Auxiliary**  
+   Understand table plan classifications and optimize costs by choosing the right plan for each data type.
+3. **Log Centralization, Commitment Tiers & Dedicated Clusters**  
    Explore strategies for centralizing logs, leveraging commitment tiers, and using dedicated clusters for cost efficiency.
-3. **Controlling Data Ingestion**  
-   Techniques and tools to control and reduce unnecessary data ingestion into your workspaces.
-4. **Design, Architecture & Best Practices**  
+4. **Controlling Data Ingestion & Transformations**  
+   Techniques and tools to control and reduce unnecessary data ingestion using data collection rules and KQL transformations.
+5. **Design, Architecture & Best Practices**  
    Guidance on designing scalable, cost-effective, and secure Log Analytics environments.
-5. **Other Advanced Topics**  
-   Additional tips, tricks, and advanced scenarios for optimizing your Azure Monitor and Log Analytics usage.
 
 ---
 
