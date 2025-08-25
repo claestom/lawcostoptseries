@@ -6,7 +6,7 @@ This repository is the home of a **5-part series** focused on helping you analyz
 
 This series will consist of 5 parts:
 
-1. **Detect Unused Tables, Basic/Analytic/Auxiliary Logs**  
+1. **Detect Unused Tables**  
    Learn how to identify tables that are ingesting data but are rarely or never queried, and understand the different log types in Log Analytics.
 2. **Optimize the logs: Analytic vs Basic vs Auxiliary**  
    Understand table plan classifications and optimize costs by choosing the right plan for each data type.
